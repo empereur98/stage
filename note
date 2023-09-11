@@ -1,0 +1,75 @@
+Table "Utilisateurs" :
+
+ID : entier (clé primaire)
+Nom : chaîne de caractères
+Adresse e-mail : chaîne de caractères
+Mot de passe : chaîne de caractères (haché)
+Niveau de compétence linguistique : chaîne de caractères ou énumération (débutant, intermédiaire, avancé)
+Préférences d'apprentissage : chaîne de caractères ou structure de données personnalisée (JSON, par exemple)
+Score : nombre entier
+Progrès : chaîne de caractères ou structure de données personnalisée (JSON, par exemple)
+Table "Cours" :
+
+ID : entier (clé primaire)
+Titre : chaîne de caractères
+Description : chaîne de caractères
+Niveau : chaîne de caractères ou énumération (débutant, intermédiaire, avancé)
+Objectifs : chaîne de caractères
+Ressources : chaîne de caractères (URL)
+Table "Vocabulaire" :
+
+ID : entier (clé primaire)
+Mot : chaîne de caractères
+Traduction : chaîne de caractères
+Définition : chaîne de caractères
+Exemples : chaîne de caractères (séparés par des délimiteurs ou sous forme de tableau)
+Catégorie : chaîne de caractères ou énumération
+Niveau de difficulté : chaîne de caractères ou énumération (facile, moyen, difficile)
+Table "Exercices" :
+
+ID : entier (clé primaire)
+Question : chaîne de caractères
+Choix de réponse : chaîne de caractères (séparés par des délimiteurs ou sous forme de tableau)
+Réponse correcte : chaîne de caractères
+Explication : chaîne de caractères
+Table "Statistiques" :
+
+ID : entier (clé primaire)
+Utilisateur ID : entier (clé étrangère vers la table "Utilisateurs")
+Score : nombre entier ou décimal
+Date : date ou horodatage
+Table "Discussions" :
+
+ID : entier (clé primaire)
+Message : chaîne de caractères
+Utilisateur ID : entier (clé étrangère vers la table "Utilisateurs")
+Horodatage : date ou horodatage
+Table "Paramètres" :
+
+ID : entier (clé primaire)
+Utilisateur ID : entier (clé étrangère vers la table "Utilisateurs")
+Langue cible : chaîne de caractères
+Notifications : booléen (vrai ou faux)
+Thème visuel : chaîne de caractères ou énumération
+Réglages personnalisés : chaîne de caractères ou structure de données personnalisée (JSON, par exemple)
+
+logique
+  l'utilisateur se connecte,on cherche a savoir quel langue il souhaite apprendre et quel est son niveau(debutant,intermediaire,avance),ensuite on affiche les cours disponible
+  en fonction du niveau selectionner auparavant,on clique sur une lesson on a access a un tableau qui presente la lesson.
+dans la page d'acceuil
+  -
+dans la page de lesson
+  -
+
+  logique besty
+-je m'authentifie en tant que user
+-je m'authentifie en tant que  partenaire
+
+ logique camerlingo
+- quand je clique sur la region.je suis diriger sur les caracteristique de la region puis je selectionne la langue je suis 
+egalement rediriger sur la langue avec pour question(quel est votre niveau[Facile,intermediaire,difficile]),je suis alors diriger sur la page 
+des lessons selon le niveau que j'\aurais au prealable choisie'.(les son)
+-
+
+tache a faire
+  -voir comment organiser la page cours et lesson

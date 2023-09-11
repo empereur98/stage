@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <div class="row">
+    <div class="col-3 bg-secondary" style="--bs-bg-opacity: .3;">
+       <h3 class="mt-4 mb-4">les regions du cameroun</h3>
+       <ul>
+        {% for row in regions %}
+            <li>{{row.nom}}</li>
+        {% endfor %}
+       </ul>
+    </div>
+    <div class="col-9">
+<h1 class="w-25 d-inline-block float-right mb-4">{{region.nom}}</h1>
+<div class="text-secondary float-left">chef lieu:{{region.cheflieu}}</div>
+<h5 class="mt-4">Histoire</h5>
+<p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur odit molestias maiores doloremque, ducimus corrupti inventore doloribus tenetur dolorem atque sit nam minima porro adipisci nobis iste asperiores itaque. Dolorum!{{region.description}}</p>
+<h5 class="mt-4">Description</h5>
+<p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur odit molestias maiores doloremque, ducimus corrupti inventore doloribus tenetur dolorem atque sit nam minima porro adipisci nobis iste asperiores itaque. Dolorum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam neque magni, voluptatibus soluta nemo ipsum quaerat laboriosam voluptas aliquid sunt deserunt, molestias laudantium repellat cum distinctio aspernatur vel quasi et. {{region.description}}</p>
+<h5 class="mt-4">Langue</h5>
+    {% for langue in langues %}
+        <a href="{{path('show_langue',{'id': langue.id})}}" class="btn btn-primary">{{langue.nom}}</a>
+    {% endfor %}
+   </div>
+    </div>
+  </div>
+{% endblock body %}
