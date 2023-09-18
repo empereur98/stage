@@ -20,6 +20,19 @@ class RegionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Region::class);
     }
+    public function delete(Region $region):void
+    {
+         $this->remove($region,true);
+        // returns an array of arrays (i.e. a raw data set)
+    }
+    public function remove(Region $region, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($region);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
 //    /**
 //     * @return Region[] Returns an array of Region objects

@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Langue;
-use App\Entity\Commercants;
+use App\Entity\Cours;
+use App\Entity\Exercice;
 use App\Entity\Region;
 use App\Entity\User;
-use App\Form\CommercantsType;
-use App\Form\UserType;
+use App\Entity\Vocabulaire;
+use App\Enum\NiveauEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class HomeController extends AbstractController
 {
     public $em;
@@ -26,47 +26,6 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
-    }
-    #[Route('/newcommercant',name:'newcomm')]
-    public function new(Request $request,EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher):Response{
-        $commercants=new Commercants();
-        $form=$this->createForm(CommercantsType::class,$commercants);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $commercants=$form->getData();
-            $plaintextPassword = $commercants->getpassword();
-            $hashedPassword = $passwordHasher->hashPassword(
-                $commercants,
-                $plaintextPassword
-            );
-            $commercants->setPassword($hashedPassword);
-            //dump($commercants);
-            //die;
-            $em->persist($commercants);
-            $em->flush();
-        }
-        return new Response($this->render('login/newuser.html.twig',[
-             'form'=>$form->createView()
-        ]));
-    }
-    #[Route('/newuser',name:'newcomm1')]
-    public function newuser(Request $request,EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher):Response{
-        $user=new User();
-        $form1=$this->createForm(UserType::class,$user);
-        $form1->handleRequest($request);
-        if($form1->isSubmitted() && $form1->isValid()){
-            $plaintextPassword = $user->getpassword();
-            $hashedPassword = $passwordHasher->hashPassword(
-                $user,
-                $plaintextPassword
-            );
-            $user->setPassword($hashedPassword);
-            $em->persist($user);
-            $em->flush();
-        }
-        return new Response($this->render('login/newuser1.html.twig',[
-             'form'=>$form1->createView()
-        ]));
     }
     #[Route('/region',name:'app_region')]
     public function homeregion():response{
@@ -88,10 +47,56 @@ class HomeController extends AbstractController
         'langues'=>$langues
        ]);
     }
-    #[Route('/langue/{id}',name:'show_langue',methods:'GET')]
+    #[Route('/langue/{id}-{slug}',name:'show_langue',methods:'GET')]
     public function show_langue($id):Response{
+
         return $this->render('langue/langue.html.twig',[
 
+        ]);
+    }
+    #[Route('/cours/{langue}-{niveau}',name:'app_cours',methods:'GET')]
+    public function facile($niveau,$langue):Response{
+        if($niveau==='FACILE'){
+            $cours=$this->em->getRepository(Cours::class)->findBy(['niveau'=>NiveauEnum::FACILE,'langue'=>$langue]);  
+        }
+        elseif ($niveau=='DIFFICILE') {
+            $cours=$this->em->getRepository(Cours::class)->findBy(['niveau'=>NiveauEnum::DIFFICILE]);
+            dump($cours);
+            $resultat=$cours;
+        }
+       return $this->render('cours/index.html.twig',[
+        'cours'=>$cours
+       ]);
+    }
+    #[Route('/cours/{niveau}/{id}-{slug}',name:'show_lesson',methods:'GET')]
+    public function show_cours($id,$slug):Response{
+        $user=new User();
+        $user=$this->getUser();
+        dump($user);
+        $lesson=$this->em->getRepository(Vocabulaire::class)->findBy(['lesson'=>$id]);
+        dump($lesson,$id);
+       return $this->render('cours/showcours.html.twig',[
+        'lessons'=>$lesson,
+        'slug'=>$slug,
+        'id'=>$id
+       ]);
+    }
+    #[Route('/exercice/{id}',name:'show_exercice')]
+    public function exercice($id):Response{
+        $exercice=$this->em->getRepository(Exercice::class)->findBy(['cours'=>$id]);
+        dump($exercice);
+        return $this->render('exercice/exercice.html.twig',[
+         'exercice'=>$exercice
+        ]);
+    }
+    #[Route('/niveau/{id}-{langue}',name:'niveau')]
+    public function niveau(Request $request,$id):Response{
+        $session=$request->getSession();
+        $session->set('niveau','FACILE');
+        dump($this->getUser(),$session->get('niveau'));
+        return $this->render('slide/niveau.html.twig',[
+            'controller'=>'la page des langues',
+            'id'=>$id
         ]);
     }
 }

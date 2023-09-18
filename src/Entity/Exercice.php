@@ -17,14 +17,18 @@ class Exercice
     #[ORM\Column(length: 255)]
     private ?string $question = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $choix_de_reponse = [];
+    #[ORM\Column(length:255)]
+    private ?string $choix_de_reponse = null;
 
     #[ORM\Column(length: 255)]
     private ?string $reponse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $explication = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exercice')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Cours $cours = null;
 
     public function getId(): ?int
     {
@@ -43,12 +47,12 @@ class Exercice
         return $this;
     }
 
-    public function getChoixDeReponse(): array
+    public function getChoixDeReponse(): ?string
     {
         return $this->choix_de_reponse;
     }
 
-    public function setChoixDeReponse(array $choix_de_reponse): static
+    public function setChoixDeReponse(string $choix_de_reponse): static
     {
         $this->choix_de_reponse = $choix_de_reponse;
 
@@ -75,6 +79,18 @@ class Exercice
     public function setExplication(?string $explication): static
     {
         $this->explication = $explication;
+
+        return $this;
+    }
+
+    public function getCours(): ?Cours
+    {
+        return $this->cours;
+    }
+
+    public function setCours(?Cours $cours): static
+    {
+        $this->cours = $cours;
 
         return $this;
     }

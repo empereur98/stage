@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,17 +20,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_ADMIN'];
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    #[ORM\Column(type: 'string')]
+    private string $password;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $niveau = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $score = null;
+
+    #[ORM\Column]
+    private ?int $progres = null;
 
     public function getId(): ?int
     {
@@ -49,10 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+
     public function getPrenom(): ?string
     {
         return $this->prenom;
@@ -77,28 +79,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getScore(): ?int
+    public function getNiveau(): ?string
     {
-        return $this->score;
+        return $this->niveau;
     }
 
-    public function setScore(?int $score): static
+    public function setNiveau(?string $niveau): static
     {
-        $this->score = $score;
-
-        return $this;
-    }
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+        $this->niveau = $niveau;
 
         return $this;
     }
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -115,20 +111,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): static
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    public function getProgres(): ?int
+    {
+        return $this->progres;
+    }
+
+    public function setProgres(int $progres): static
+    {
+        $this->progres = $progres;
+
+        return $this;
+    }
+
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here

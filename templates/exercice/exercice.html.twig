@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block body %}
+     {% for row in exercice %}
+         <h3>{{row.question}}</h3>
+     {% endfor %}
+{% endblock body %}

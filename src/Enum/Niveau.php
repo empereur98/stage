@@ -1,9 +1,8 @@
 <?php
 namespace App\Enum;
 
-enum  NiveauEnum:string
+class NiveauEnum
 {
-    case  DIFFICILE= 'DIFFICILE';
-    case Center = 'Center aligned';
-    case Right = 'Right aligned';
+    const FACILE= 'FACILE';
+    const DIFFICILE = 'DIFFICILE';
 }

@@ -1,21 +1,158 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello LangueController!{% endblock %}
-
+{% extends "base.html.twig" %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 <div class="container">
-    {% for message in app.flashes('notice') %}
-    <div class="alert alert-primary">
-        {{ message }}
+    {% for messages in app.flashes('success') %}
+          <div class="alert alert-success">{{messages}}</div>
+         {% endfor %}
+    <div>
+        <h1 class="mt-5 text-right">Regions du cameroun</h1>
+        <hr>
+        <table class="table table-striped">
+         <thead>
+           <tr>
+             <th>Titres</th>
+             <th coldspan="2">Actions</th>
+           </tr>
+         </thead>
+         <tbody>
+            {% for region in regions %}
+             <tr>
+               <td>{{region.nom}}</td>
+               <td><a href="{{path('edit_region',{id: region.id})}}" class="btn btn-primary">editer</a></td>
+               <td>
+                 <form method="POST" action="{{path('delete',{id: region.id})}}">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <input type="hidden" name="_token" value="{{csrf_token('delete' ~ region.id)}}">
+                  <button class="btn btn-danger">supprimer</button>
+                 </form>
+               </td>
+             </tr>
+            {% endfor %}
+         </tbody>
+        </table>
+        <div class="text-end">
+         <a href="{{path('new_region')}}" class="btn btn-primary">creer une nouvelle regions</a>
+        </div>
     </div>
-{% endfor %}
-    <h3>Entrer votre langue</h3>
-    {{form_start(form)}}
-    {{form_widget(form)}}
-    {{form_end(form)}}
+    <div>
+      <h1 class="mt-5 text-right">langue du cameroun</h1>
+      <hr>
+      <table class="table table-striped">
+       <thead>
+         <tr>
+           <th>Titres</th>
+           <th coldspan="2">Actions</th>
+         </tr>
+       </thead>
+       <tbody>
+          {% for langue in langues %}
+           <tr>
+             <td>{{langue.nom}}</td>
+             <td><a href="{{path('edit_langue',{id: langue.id})}}" class="btn btn-primary">editer</a></td>
+             <td>
+               <form method="POST" action="{{path('delete',{id: langue.id})}}">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{csrf_token('delete' ~ langue.id)}}">
+                <button class="btn btn-danger">supprimer</button>
+               </form>
+             </td>
+           </tr>
+          {% endfor %}
+       </tbody>
+      </table>
+      <div class="text-end">
+       <a href="{{path('new_langue')}}" class="btn btn-primary">creer une nouvelle langue</a>
+      </div>
+  </div>
+  <div>
+    <h1 class="mt-5 text-right">Cours de Camerlingo</h1>
+    <hr>
+    <table class="table table-striped">
+     <thead>
+       <tr>
+         <th>Titres</th>
+         <th coldspan="2">Actions</th>
+       </tr>
+     </thead>
+     <tbody>
+        {% for cour in cours %}
+         <tr>
+           <td>{{cour.titre}}</td>
+           <td><a href="{{path('edit_cours',{id: cour.id})}}" class="btn btn-primary">editer</a></td>
+           <td>
+             <form method="POST" action="{{path('delete',{id: cour.id})}}">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="hidden" name="_token" value="{{csrf_token('delete' ~ cour.id)}}">
+              <button class="btn btn-danger">supprimer</button>
+             </form>
+           </td>
+         </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+    <div class="text-end">
+     <a href="{{path('new_cours')}}" class="btn btn-primary">creer une nouvelle lesson</a>
+    </div>
 </div>
-{% endblock %}
+    <div>
+      <h1 class="mt-5 text-right">utilisateurs de camerlingo</h1>
+      <hr>
+      <table class="table table-striped">
+       <thead>
+         <tr>
+           <th>Titres</th>
+           <th coldspan="2">Actions</th>
+         </tr>
+       </thead>
+       <tbody>
+          {% for user in usersadmin %}
+           <tr>
+             <td>{{user.nom}}</td>
+             <td><a href="{{path('edit_user',{id: user.id})}}" class="btn btn-primary">editer</a></td>
+             <td>
+               <form method="POST" action="{{path('delete',{id: user.id})}}">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{csrf_token('delete' ~ user.id)}}">
+                <button class="btn btn-danger">supprimer</button>
+               </form>
+             </td>
+           </tr>
+          {% endfor %}
+       </tbody>
+      </table>
+      <div class="text-end">
+       <a href="{{path('new_user')}}" class="btn btn-primary">ajouter un nouvelle admin</a>
+      </div>
+  </div>
+  <div>
+    <h1 class="mt-5 text-right">exercice</h1>
+    <hr>
+    <table class="table table-striped">
+     <thead>
+       <tr>
+         <th>Titres</th>
+         <th coldspan="2">Actions</th>
+       </tr>
+     </thead>
+     <tbody>
+        {% for exercice in exercices %}
+         <tr>
+           <td>{{exercice.question}}</td>
+           <td><a href="{{path('edit_exercice',{id: exercice.id})}}" class="btn btn-primary">editer</a></td>
+           <td>
+             <form method="POST" action="{{path('delete',{id: exercice.id})}}">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="hidden" name="_token" value="{{csrf_token('delete' ~ exercice.id)}}">
+              <button class="btn btn-danger">supprimer</button>
+             </form>
+           </td>
+         </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+    <div class="text-end">
+     <a href="{{path('new_exercice')}}" class="btn btn-primary">ajouter un nouvelle exercice</a>
+    </div>
+</div>
+</div>
+{% endblock body %}

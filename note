@@ -72,4 +72,22 @@ des lessons selon le niveau que j'\aurais au prealable choisie'.(les son)
 -
 
 tache a faire
-  -voir comment organiser la page cours et lesson
+  -relation entre lesson et Mot
+  [
+    -il faudrait que chaque mot appartienne a une lecon
+    -c'est la lecon que l'on definit sur facile
+    -
+  ]
+  -faire la page mot en respectant le modele facile,difficile
+  -
+  mettre en relation exercice et lesson
+  tant que le nombre de point n/est pas atteind on ne passe pas a l/exercice suivant
+  voir comment disposer l'exercice./'
+  qaund t'on choisi son niveau on tombe sur une liste de lesson en fonction de la langue choisie au depart.
+nb:c'est apres chaque lecon qu'il y'a les exercices.
+apres avoir cliquer sur medjomba(on enregistre l'ID de medjomba avec(langue/1-medjomba/niveau),on fait l'enregistrement et ensuite on clique sur le niveau souhaiter)
+
+structuration d'un exercice
+-la question
+-les choix de reponse 
+-logique permettant d'ajouter le point a l'utilisateur.

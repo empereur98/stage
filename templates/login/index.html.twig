@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Hello LoginController1!{% endblock %}
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    {% if last_username %}
-        <div>{{  last_username }}</div>
-    {% endif %}
-    <form action="{{ path('app_login_user') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
-       <!--<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">--> 
-
-        <button type="submit">login</button>
-    </form>
+    <div class="container text-center">
+        <h3 class="mt-3 mb-3">connexion</h3>
+        <div class="row justify-content-center align-items-center">
+            <div class="w-50 bg-secondary" style="--bs-bg-opacity: .1;">
+                <form action="{{path('app_login')}}" method="post">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" name="_username"id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    {{ dump(last_username) }}
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input type="password" class="form-control" name="_password" id="exampleInputPassword1">
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+              </div>
+        </div>
+    </div> 
 {% endblock %}

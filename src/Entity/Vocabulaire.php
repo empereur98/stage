@@ -23,11 +23,12 @@ class Vocabulaire
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $audio = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $exemple = null;
+    #[ORM\Column(length:255, nullable: true)]
+    private ?string $exemple = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $niveau_difficulte = null;
+    #[ORM\ManyToOne(inversedBy: 'vocabulaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Cours $lesson = null;
 
     public function getId(): ?int
     {
@@ -70,26 +71,26 @@ class Vocabulaire
         return $this;
     }
 
-    public function getExemple(): ?array
+    public function getExemple(): ?string
     {
         return $this->exemple;
     }
 
-    public function setExemple(?array $exemple): static
+    public function setExemple(?string $exemple): static
     {
         $this->exemple = $exemple;
 
         return $this;
     }
 
-    public function getNiveauDifficulte(): ?array
+    public function getLesson(): ?Cours
     {
-        return $this->niveau_difficulte;
+        return $this->lesson;
     }
 
-    public function setNiveauDifficulte(?array $niveau_difficulte): static
+    public function setLesson(?Cours $lesson): static
     {
-        $this->niveau_difficulte = $niveau_difficulte;
+        $this->lesson = $lesson;
 
         return $this;
     }

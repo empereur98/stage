@@ -18,7 +18,7 @@
 <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur odit molestias maiores doloremque, ducimus corrupti inventore doloribus tenetur dolorem atque sit nam minima porro adipisci nobis iste asperiores itaque. Dolorum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam neque magni, voluptatibus soluta nemo ipsum quaerat laboriosam voluptas aliquid sunt deserunt, molestias laudantium repellat cum distinctio aspernatur vel quasi et. {{region.description}}</p>
 <h5 class="mt-4">Langue</h5>
     {% for langue in langues %}
-        <a href="{{path('show_langue',{'id': langue.id})}}" class="btn btn-primary">{{langue.nom}}</a>
+        <a href="{{path('niveau',{id:langue.id,langue:langue.nom})}}" class="btn btn-primary">{{langue.nom}}</a>
     {% endfor %}
    </div>
     </div>
