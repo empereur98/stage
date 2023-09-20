@@ -3,13 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 class AdminUserController extends AbstractController
 {
     public $em;
@@ -41,7 +41,7 @@ class AdminUserController extends AbstractController
             $plaintextPassword
         );
         $user->setPassword($hashedPassword);
-        $user->setRole('ROLE_ADMIN');
+        $user->setRoles(['ROLE_ADMIN']);
         $this->em->persist($user);
         $this->em->flush();
         $this->addFlash('success','vous ete bien enregistrer dans la base de donnees');

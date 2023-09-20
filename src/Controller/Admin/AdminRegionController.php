@@ -6,6 +6,7 @@ use App\Entity\Exercice;
 use App\Entity\Langue;
 use App\Entity\Region;
 use App\Entity\User;
+use App\Entity\Vocabulaire;
 use App\Form\RegionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +25,15 @@ class AdminRegionController extends AbstractController{
       $langues=$this->em->getRepository(Langue::class)->findAll();
       $cours=$this->em->getRepository(Cours::class)->findAll();
       $exercices=$this->em->getRepository(Exercice::class)->findAll();
-      $users=$this->em->getRepository(User::class)->findBy(['roles'=>'ROLE_ADMIN']);
+      $users=$this->em->getRepository(User::class)->findAll();
+      $vocabulaires=$this->em->getRepository(Vocabulaire::class)->findAll();
        return $this->render('admin/index.html.twig',[
            'regions'=>$regions,
            'langues'=>$langues,
            'cours'=>$cours,
            'exercices'=>$exercices,
-           'usersadmin'=>$users
+           'usersadmin'=>$users,
+           'mots'=>$vocabulaires
        ]);
     }
     #[Route(path:'/admin/newregion', name:'new_region')]

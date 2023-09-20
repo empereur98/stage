@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 #[ORM\Entity(repositoryClass: VocabulaireRepository::class)]
 #[Vich\Uploadable]
 class Vocabulaire
@@ -20,9 +21,6 @@ class Vocabulaire
 
     #[ORM\Column(length: 255)]
     private ?string $traduction = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $audio = null;
 
     #[Vich\UploadableField(mapping: 'property_audio', fileNameProperty: 'filename')]
     private ?File $audioFile = null;
@@ -85,18 +83,6 @@ class Vocabulaire
     public function setTraduction(string $traduction): static
     {
         $this->traduction = $traduction;
-
-        return $this;
-    }
-
-    public function getAudio(): ?string
-    {
-        return $this->audio;
-    }
-
-    public function setAudio(?string $audio): static
-    {
-        $this->audio = $audio;
 
         return $this;
     }

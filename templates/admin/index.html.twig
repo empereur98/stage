@@ -125,6 +125,36 @@
       </div>
   </div>
   <div>
+    <h1 class="mt-5 text-right">Mot de Camerlingo</h1>
+    <hr>
+    <table class="table table-striped">
+     <thead>
+       <tr>
+         <th>Titres</th>
+         <th coldspan="2">Actions</th>
+       </tr>
+     </thead>
+     <tbody>
+        {% for cour in mots %}
+         <tr>
+           <td>{{cour.mot}}</td>
+           <td><a href="{{path('edit_vocabulaire',{id: cour.id})}}" class="btn btn-primary">editer</a></td>
+           <td>
+             <form method="POST" action="{{path('delete',{id: cour.id})}}">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="hidden" name="_token" value="{{csrf_token('delete' ~ cour.id)}}">
+              <button class="btn btn-danger">supprimer</button>
+             </form>
+           </td>
+         </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+    <div class="text-end">
+     <a href="{{path('new_cours')}}" class="btn btn-primary">creer un nouveau mot</a>
+    </div>
+</div>
+  <div>
     <h1 class="mt-5 text-right">exercice</h1>
     <hr>
     <table class="table table-striped">

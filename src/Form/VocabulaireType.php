@@ -6,6 +6,7 @@ use App\Entity\Cours;
 use App\Entity\Vocabulaire;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +18,7 @@ class VocabulaireType extends AbstractType
         $builder
             ->add('mot')
             ->add('traduction')
-            ->add('audio')
+            ->add('audioFile',FileType::class,[])
             ->add('exemple')
             ->add('lesson',EntityType::class,[
                 'class'=>Cours::class,

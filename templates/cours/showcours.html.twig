@@ -8,8 +8,16 @@
       <div class="card-body">
         <h2 class="card-title">{{lesson.mot}}</h2>
         <p class="card-text"><small class="text-muted">{{lesson.traduction}}</small></p>
-        <p class="card-text">{{lesson.exemple}}/p>
-        <a href="#" class="btn btn-primary">{{lesson.audio}}</a>
+        <p class="card-text">{% if lesson.filename %}
+          <audio controls class="w-100">
+              <source src="/audio/properties/{{lesson.filename}}" type="audio/mpeg">
+              <p>
+                  Votre navigateur ne prend pas en charge l'audio HTML5. Voici un
+                  <a href="/audio/properties/{{lesson.filename}}">lien vers le fichier audio</a> à la place.
+                </p>
+            </audio>
+  {% endif %}</p>
+        <a href="#" class="btn btn-primary">{{lesson.exemple}}</a>
       </div>
     </div>
   </div>
