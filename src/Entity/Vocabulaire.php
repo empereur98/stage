@@ -1,12 +1,13 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\VocabulaireRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: VocabulaireRepository::class)]
+#[Vich\Uploadable]
 class Vocabulaire
 {
     #[ORM\Id]
@@ -23,6 +24,12 @@ class Vocabulaire
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $audio = null;
 
+    #[Vich\UploadableField(mapping: 'property_audio', fileNameProperty: 'filename')]
+    private ?File $audioFile = null;
+
+    #[ORM\Column(length:255,nullable: true)]
+    private ?string $filename = null;
+
     #[ORM\Column(length:255, nullable: true)]
     private ?string $exemple = null;
 
@@ -38,6 +45,29 @@ class Vocabulaire
     public function getMot(): ?string
     {
         return $this->mot;
+    }
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $uppade_at = null;
+
+    public function getFilename(): ?string{
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): static{
+        $this->filename = $filename;
+        return $this;
+    }
+    public function getAudioFile(): ?File{
+        return $this->audioFile;
+    }
+
+    public function setAudiofile(?File $audioFile): static{
+        $this->audioFile = $audioFile;
+        if ($this->audioFile instanceof UploadedFile) {
+            $this->uppade_at = new \DateTimeImmutable('now');
+        }
+        return $this;
     }
 
     public function setMot(string $mot): static
