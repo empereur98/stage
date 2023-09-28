@@ -50,7 +50,7 @@ class LoginController extends AbstractController
             $plaintextPassword
         );
         $user->setPassword($hashedPassword);
-        $user->setRole('ROLE_USER');
+        $user->setRoles(['ROLE_USER']);
         $this->em->persist($user);
         $this->em->flush();
         $this->addFlash('success','vous ete bien enregistrer dans la base de donnees');

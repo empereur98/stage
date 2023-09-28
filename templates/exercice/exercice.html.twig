@@ -1,6 +1,32 @@
 {% extends "base.html.twig" %}
 {% block body %}
-     {% for row in exercice %}
-         <h3>{{row.question}}</h3>
-     {% endfor %}
+<form action="{{path('show_exercice',{id:id})}}" method="post" class="mt-4">
+{% set i = 0 %}
+{% for exercice in exercices %}
+<h3>{{exercice.question}}</h3>
+{% set myArray = exercice.getChoixDeReponse()|split(',') %}
+{% for item in myArray %}
+<input type="radio" class="btn-check" name="options{{i}}" id="option{{i}}{{item}}" value="{{item}}" autocomplete="off" required>
+<label class="btn btn-outline-primary" for="option{{i}}{{item}}">{{item}}</label>
+{% endfor %}  
+{% set i = i+1 %}
+{% endfor %}
+<input type="submit"  class="btn btn-primary" value="valider">
+</form>
+{% for messages in app.flashes('success') %}
+<div class="alert alert-success">{{messages}}</div>
+{% endfor %}
+{% for messages in app.flashes('danger') %}
+<div class="alert alert-danger">{{messages}}</div>
+{% endfor %}
+{% if scores > 2  %}
+<div class="alert alert-success">vous avez obtenue:{{scores}}points.vous pouvez continuer</div>
+{% if cours is empty %}
+  vous aviez terminer le niveau facile.passer a un niveau superieur
+{% else %}
+<div>vous pouvez passer a la lecons suivante <a href="{{path('show_lesson',{id:cours[0].id,niveau:cours[0].niveau,slug:cours[0].titre})}}" class="btn btn-primary">lecon suivante</a></div>
+{% endif %}
+{% else %}
+<div class="alert alert-danger">vous n'avez pas obtenue le nombre de points requis veuillez reprendre le formulaire</div>
+{% endif %}
 {% endblock body %}

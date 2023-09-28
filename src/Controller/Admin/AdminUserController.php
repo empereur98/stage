@@ -28,7 +28,6 @@ class AdminUserController extends AbstractController
     public function add(Request $request ,UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
-        dump($user);
         $form=$this->createForm(UserType::class,$user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){

@@ -25,7 +25,7 @@ class AdminRegionController extends AbstractController{
       $langues=$this->em->getRepository(Langue::class)->findAll();
       $cours=$this->em->getRepository(Cours::class)->findAll();
       $exercices=$this->em->getRepository(Exercice::class)->findAll();
-      $users=$this->em->getRepository(User::class)->findAll();
+      $users=$this->em->getRepository(User::class)->findByRole('["ROLE_ADMIN"]');
       $vocabulaires=$this->em->getRepository(Vocabulaire::class)->findAll();
        return $this->render('admin/index.html.twig',[
            'regions'=>$regions,

@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Langue;
 use App\Entity\Cours;
 use App\Entity\Exercice;
+use App\Entity\Exercicesearch;
 use App\Entity\Region;
 use App\Entity\User;
 use App\Entity\Vocabulaire;
 use App\Enum\NiveauEnum;
+use App\Form\ExercicesearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,12 +85,48 @@ class HomeController extends AbstractController
     }
     #[Route('/exercice/{id}',name:'show_exercice')]
     public function exercice($id):Response{
-        $exercice=$this->em->getRepository(Exercice::class)->findBy(['cours'=>$id]);
-        dump($exercice);
+        $post=[];
+        $score=0;
+        $point=0;
+        $cours=null;
+        $exemple=$this->em->getRepository(Exercice::class)->findOneBy(['cours'=>$id]);
+        $cours=$exemple->getCours();
+        $courssuivant=$this->em->getRepository(Cours::class)->findBy(['id'=>$cours->getID()+1,'langue'=>$cours->getLangue()]);
+        dump($courssuivant);
+        $exercices=$this->em->getRepository(Exercice::class)->findBy(['cours'=>$id]);
+        $user=$this->em->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
+        foreach ($exercices as $key=>$exercice) {
+            $cours=$exercice->getCours();
+        if (isset($_POST['options'.$key])) {
+            $post[]=$_POST['options'.$key];
+        if ($exercice->getReponse()===$post[$key]) {
+            $score=$user->getScore();
+            $point+=3;
+            $score+=$point;
+            $user->setScore($score);
+           // $this->em->flush();
+            $this->addFlash('success','bonne reponse');
+        }else{
+            $this->addFlash('danger','mauvaise reponse');
+        }
+        }
+    }
+        //$tab=$exercice->getChoixDeReponse();
+        dump($exercices,$user,$post);
         return $this->render('exercice/exercice.html.twig',[
-         'exercice'=>$exercice
+         'id'=>$id,
+         'exercices'=>$exercices,
+         'scores'=>$point,
+         'cours'=>$courssuivant
         ]);
     }
+    #[Route('/do',name:'do_exercice')]
+      public function doexercice():Response{
+        
+         return $this->render('exercice/exercice1.html.twig',[
+
+         ]);
+      }
     #[Route('/niveau/{id}-{langue}',name:'niveau')]
     public function niveau(Request $request,$id):Response{
         $session=$request->getSession();
